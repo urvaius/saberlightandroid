@@ -18,7 +18,9 @@ namespace saberlightandroid
             base.OnCreate(bundle);
 
             // Set our view from the "main" layout resource
+            RequestWindowFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.Main);
+
 
             // Get our button from the layout resource,
             // and attach an event to it
