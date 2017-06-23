@@ -67,10 +67,12 @@ namespace saberlightandroid
                      {
                          TurnOffFlashLight();
                          isTorchOn = false;
+                         PlayOffSound();
                      }
                      else
                      {
                          TurnOnFlashLight();
+                         PlayOnSound();
                          isTorchOn = true;
                      }
                  }
@@ -95,7 +97,30 @@ namespace saberlightandroid
             
         }
 
+        private void PlayOnSound()
+        {
+            mp = MediaPlayer.Create(this, Resource.Raw.fx4);
+           // if(mp2.IsPlaying)
+           // {
+            //    mp2.Stop();
+           //     mp2.Release();
+           // }
+          
+            mp.Start();
+          
+        }
 
+        private void PlayOffSound()
+        {
+            mp2 = MediaPlayer.Create(this, Resource.Raw.fx5);
+           // if(mp.IsPlaying)
+           // {
+           //     mp.Stop();
+           //     mp.Release();
+           // }
+            
+            mp2.Start();
+        }
         public void TurnOnFlashLight()
         {
             try
@@ -135,6 +160,8 @@ namespace saberlightandroid
             if (isTorchOn)
             {
                 TurnOffFlashLight();
+                mp.Release();
+                mp2.Release();
             }
         }
 
