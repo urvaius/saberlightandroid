@@ -3,5 +3,7 @@
 	<uses-sdk android:minSdkVersion="22" />
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.FLASHLIGHT" />
-	<application android:label="saberlightandroid"></application>
+	<application android:label="saberlightandroid">
+		
+	</application>
 </manifest>

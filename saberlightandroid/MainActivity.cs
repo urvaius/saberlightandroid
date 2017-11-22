@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace saberlightandroid
 {
-    [Activity(Label = "saberlightandroid", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "saberlightandroid", MainLauncher = true,ScreenOrientation =ScreenOrientation.Portrait, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
 
@@ -25,6 +25,7 @@ namespace saberlightandroid
         private MediaPlayer mp;
         private MediaPlayer mp2;
         private MediaPlayer mp3;
+        public MediaPlayer mpToLoop;
 
 
         
@@ -35,6 +36,7 @@ namespace saberlightandroid
 
             // Set our view from the "main" layout resource
             RequestWindowFeature(WindowFeatures.NoTitle);
+            
             SetContentView(Resource.Layout.Main);
 
 
@@ -97,35 +99,57 @@ namespace saberlightandroid
             
         }
 
+
+
+        
         private void PlayOnSound()
         {
             mp = MediaPlayer.Create(this, Resource.Raw.fx4);
-           // if(mp2.IsPlaying)
-           // {
+            mp3 = MediaPlayer.Create(this, Resource.Raw.saberftn);
+
+            mp3.Looping = true;
+            if(mp2!=null)
+            {
+                if (mp2.IsPlaying)
+                {
+                    mp2.Stop();
+                }
+
+            }
+
+            // if(mp2.IsPlaying)
+            // {
             //    mp2.Stop();
-           //     mp2.Release();
-           // }
-          
+            //     mp2.Release();
+            // }
+
             mp.Start();
+            //mp.SetNextMediaPlayer(mp3);
+            
           
         }
-
+     
         private void PlayOffSound()
         {
-            mp2 = MediaPlayer.Create(this, Resource.Raw.fx5);
-           // if(mp.IsPlaying)
+            //if(mp3.IsPlaying)
            // {
-           //     mp.Stop();
-           //     mp.Release();
+            //    mp3.Stop();
+                
            // }
+           // mp3.Release();
+            mp2 = MediaPlayer.Create(this, Resource.Raw.fx5);
+            if(mp.IsPlaying)
+              {
+                mp.Stop();
+                mp.Release();
+            }
             
             mp2.Start();
         }
         public void TurnOnFlashLight()
         {
             try
-            {
-                if (Build.VERSION.SdkInt >= Build.VERSION_CODES.M)
+            { if(Build.VERSION.SdkInt >= BuildVersionCodes.M)
                 {
                     mCameraManager.SetTorchMode(mCameraId, true);
                     mTorchOnOffButton.SetImageResource(Resource.Drawable.green_lightsaber);
@@ -145,6 +169,8 @@ namespace saberlightandroid
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
                 {
                     mCameraManager.SetTorchMode(mCameraId, false);
+                    PlayOffSound();
+
                     mTorchOnOffButton.SetImageResource(Resource.Drawable.green_lightsaberoff);
                 }
             }catch (Java.Lang.Exception e)
@@ -154,7 +180,8 @@ namespace saberlightandroid
         }
 
         
-    public void OnStop()
+        
+  public void OnStop()
         {
             base.OnStop();
             if (isTorchOn)
@@ -162,6 +189,7 @@ namespace saberlightandroid
                 TurnOffFlashLight();
                 mp.Release();
                 mp2.Release();
+                mp3.Release();
             }
         }
 
